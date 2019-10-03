@@ -24,68 +24,124 @@ class Helpers():
 
     def convert_to_word(self,number):
         num_str = [int(i) for i in str(number)]
-
+        final_str = ""
 
         if number < Helpers.ten:
             print(str(number) + " - " + Helpers.zero_to_nine[number])
         elif number >= Helpers.ten and number < Helpers.hundred:
-            Helpers.tens(self,number)
+            final_str = Helpers.tens(self,number)
+            print(str(number) + " - " + final_str)
         elif number >= Helpers.hundred and number < Helpers.thousand:
-            Helpers.hundreds(self,number)
+            final_str = Helpers.hundreds(self,number)
+            print(str(number) + " - " + final_str)
         elif number >= Helpers.thousand and number < Helpers.ten_thousand:
-            Helpers.thousands(self, number)
+            final_str =  Helpers.thousands(self, number)
+            print(str(number) + " - " + final_str)
         elif number >= Helpers.ten_thousand and number < Helpers.hundred_thousand:
-            if num_str[0] == 1:
-                if num_str[3] == 1:
-                    print(str(number) + " - " + Helpers.ten_to_19[num_str[1]] + " Thousand " + Helpers.zero_to_nine[num_str[2]] + " Hundred " + Helpers.ten_to_19[num_str[3]])
-                elif num_str[3] == 0:
-                    print(str(number) + " - " + Helpers.ten_to_19[num_str[1]] + " Thousand " + Helpers.zero_to_nine[num_str[2]] + " Hundred " + Helpers.by_tens[num_str[3]])
-                else:
-                    print(str(number) + " - " + Helpers.ten_to_19[num_str[1]] + " Thousand " + Helpers.zero_to_nine[num_str[2]] + " Hundred " + Helpers.by_tens[num_str[3]] + " " + Helpers.zero_to_nine[num_str[4]] )
+            final_str =  Helpers.ten_thousands(self, number)
+            print(str(number) + " - " + final_str)
+        elif number >= Helpers.hundred_thousand and number < Helpers.million:
+            final_str = Helpers.hundred_thousands(self,number)
 
     def tens(self,number):
-
+        ret_str = ""
         num_str = [int(i) for i in str(number)]
         if number >= Helpers.ten and number < Helpers.twenty:
             new_num = number - Helpers.ten
-            print(str(number) + " - " + Helpers.ten_to_19[new_num])
+            return Helpers.ten_to_19[new_num]
         elif number >= Helpers.twenty and number < Helpers.hundred:
             if num_str[1] == 0:
-                print(str(number) + " - " + Helpers.by_tens[num_str[0]])
+                new_str = Helpers.by_tens[num_str[0]]
+                ret_str = ret_str + new_str
+                return ret_str
             else:
-                print(str(number) + " - " + Helpers.by_tens[num_str[0]] + " " + Helpers.zero_to_nine[num_str[1]])
+                new_str = Helpers.by_tens[num_str[0]] + " " + Helpers.zero_to_nine[num_str[1]]
+                ret_str = ret_str + new_str
+                return ret_str
 
     def hundreds(self,number):
         num_str = [int(i) for i in str(number)]
-
+        new_num = str(number)
+        pass_tens = int(new_num[1:3])
+        hundred_num = Helpers.zero_to_nine[num_str[0]]
+        ret_str = " " + hundred_num + " Hundred "
         if num_str[1] == 1:
-            print(str(number) + " - " + Helpers.zero_to_nine[num_str[0]] + " Hundred " + Helpers.ten_to_19[num_str[2]])
+           new_str = Helpers.tens(self,pass_tens)
+           ret_str = ret_str + new_str
+           return ret_str
         elif num_str[2] == 0:
-            print(
-                str(number) + " - " + Helpers.zero_to_nine[num_str[0]] + " Hundred " + Helpers.by_tens[num_str[1]])
+            new_str = Helpers.by_tens[num_str[1]]
+            ret_str = ret_str + new_str
+            return ret_str
         else:
-            print(str(number) + " - " + Helpers.zero_to_nine[num_str[0]] + " Hundred " + Helpers.by_tens[
-                num_str[1]] + " " + Helpers.zero_to_nine[num_str[2]])
+            new_str = (Helpers.by_tens[num_str[1]] + " " + Helpers.zero_to_nine[num_str[2]])
+            ret_str = ret_str + new_str
+            return ret_str
 
     def thousands(self,number):
         num_str = [int(i) for i in str(number)]
+        new_num = str(number)
+        pass_huns = int(new_num[1:4])
+        pass_tens = int(new_num[2:4])
+        thousand_num = Helpers.zero_to_nine[num_str[0]]
+        ret_str = " " + thousand_num + " thousand "
+
         if num_str[1] == 0:
             if num_str[2] == 1:
-                print(str(number) + " - " + Helpers.zero_to_nine[num_str[0]] + " Thousand " +
-                      Helpers.ten_to_19[num_str[3]])
+                new_str = Helpers.tens(self, pass_tens)
+                ret_str = ret_str + new_str
+                return ret_str
             elif num_str[3] == 0:
-                print(str(number) + " - " + Helpers.zero_to_nine[num_str[0]] + " Thousand " +
-                      Helpers.by_tens[num_str[2]])
+                new_str = Helpers.by_tens[num_str[2]]
+                ret_str = ret_str + new_str
+                return ret_str
             else:
-                print(str(number) + " - " + Helpers.zero_to_nine[num_str[0]] + " Thousand " +
-                      Helpers.by_tens[num_str[2]] + " " + Helpers.zero_to_nine[num_str[3]])
-        elif num_str[2] == 1:
-            print(str(number) + " - " + Helpers.zero_to_nine[num_str[0]] + " Thousand " + Helpers.zero_to_nine[
-                num_str[1]] + " Hundred " + Helpers.ten_to_19[num_str[3]])
-        elif num_str[3] == 0:
-            print(str(number) + " - " + Helpers.zero_to_nine[num_str[0]] + " Thousand " + Helpers.zero_to_nine[
-                num_str[1]] + " Hundred " + Helpers.by_tens[num_str[2]])
-
+                new_str = (Helpers.by_tens[num_str[2]] + " " + Helpers.zero_to_nine[num_str[3]])
+                ret_str = ret_str + new_str
+                return ret_str
         else:
-            print(str(number) + " - " + Helpers.zero_to_nine[num_str[0]] + " Thousand " + Helpers.zero_to_nine[
-                num_str[1]] + " Hundred " + Helpers.by_tens[num_str[2]] + " " + Helpers.zero_to_nine[num_str[3]])
+            new_str = Helpers.hundreds(self, pass_huns)
+            ret_str = ret_str + new_str
+            return ret_str
+
+    def ten_thousands(self,number):
+        num_str = [int(i) for i in str(number)]
+        new_num = str(number)
+        pass_thous = int(new_num[1:5])
+        pass_huns = int(new_num[2:5])
+        pass_tens = int(new_num[3:5])
+        if num_str[0] == 1:
+            thousand_num = Helpers.ten_to_19[num_str[1]]
+            ret_str = " " + thousand_num + " thousand "
+        elif num_str[1] == 0:
+            thousand_num = Helpers.by_tens[num_str[0]]
+            ret_str = " " + thousand_num + " thousand "
+        else:
+            thousand_num = Helpers.by_tens[num_str[0]]
+            sec_num = Helpers.zero_to_nine[num_str[1]]
+            ret_str = " " + thousand_num + " " + sec_num + " thousand "
+
+        if num_str[2] == 0:
+            if num_str[3] == 1:
+                new_str = Helpers.tens(self, pass_tens)
+                ret_str = ret_str + new_str
+                return ret_str
+            elif num_str[4] == 0:
+                new_str = Helpers.by_tens[num_str[3]]
+                ret_str = ret_str + new_str
+                return ret_str
+            else:
+                new_str = (Helpers.by_tens[num_str[3]] + " " + Helpers.zero_to_nine[num_str[4]])
+                ret_str = ret_str + new_str
+                return ret_str
+        else:
+            new_str = Helpers.hundreds(self, pass_huns)
+            ret_str = ret_str + new_str
+            return ret_str
+
+    def hundred_thousands(self, number):
+        num_str = [int(i) for i in str(number)]
+        new_num = str(number)
+        pass_thous = int(new_num[2:6])
+        pass_huns = int(new_num[3:6])
+        pass_tens = int(new_num[4:6])
