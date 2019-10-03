@@ -1,5 +1,6 @@
 import unittest
 from selenium import webdriver
+from certifications.Helpers import Helpers
 
 class BaseChallenge(unittest.TestCase):
 
