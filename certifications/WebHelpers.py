@@ -7,6 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from certifications.BaseChallenge import BaseChallenge
 
+
 class WebHelpers:
 
     def __init__(self, driver):
@@ -88,3 +89,31 @@ class WebHelpers:
                 "MISC : " + str(misc))
 
         return total
+
+    def makes_and_models(self):
+        web_helpers = WebHelpers(self.driver)
+        count = 1
+        model_list = []
+        url_list = []
+
+        for item in self.driver.find_elements_by_xpath('//li[@ng-repeat]'):
+            car_model = item.find_element_by_xpath(
+                "//*[@id='tabTrending']/descendant-or-self::a[@href][" + str(count) + "]").text
+            model_list.append(car_model)
+            car_url = item.find_element_by_xpath(
+                "//*[@id='tabTrending']/descendant-or-self::a[@href][" + str(count) + "]").get_attribute("href")
+            url_list.append(car_url)
+
+            #print(str(count) + " " + car_modal + " - " + str(car_url))
+            count += 1
+
+        model_and_url =  web_helpers.merge_list(model_list,url_list)
+        return model_and_url
+
+    def merge_list(self,l1,l2):
+        merged_list = [(l1[i],l2[i])for i in range(0,len(l1))]
+        return merged_list
+
+    def verify_link_is_correct(self,mlist):
+        for page in mlist:
+            self.driver.find_element(By.XPATH, page[0]).click()
