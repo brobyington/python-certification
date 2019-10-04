@@ -117,3 +117,22 @@ class WebHelpers:
     def verify_link_is_correct(self,mlist):
         for page in mlist:
             self.driver.find_element(By.XPATH, page[0]).click()
+
+    def top_ten_items(self):
+        web_helpers = WebHelpers(self.driver)
+        count = 1
+        product_list = []
+        name_list = []
+
+        for item in self.driver.find_elements_by_xpath('//ol[1]/li'):
+            product = item.find_element_by_xpath(
+                "//ol[1]/li[" + str(count) + "]").text
+            product_list.append(product)
+            product_name = product.split(" ")
+            name_list.append(product_name[0])
+
+            #print(str(count) + " " + car_modal + " - " + str(car_url))
+            count += 1
+
+        product_and_name =  web_helpers.merge_list(product_list,name_list)
+        return product_and_name
