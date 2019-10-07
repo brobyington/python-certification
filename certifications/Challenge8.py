@@ -15,24 +15,21 @@ class Challenge8(BaseChallenge):
 
     def test_challenge8(self):
         web_helpers = WebHelpers(self.driver)
+        self.driver.get("https://www.copart.com")
+        cookie = {}
+        # for x in self.driver.get_cookies():
+        #     cookie[x["name"]]= x["value"]
+        cookie = {x["name"]: x["value"] for x in self.driver.get_cookies()}
 
         compart_url = "https://www.copart.com/public/lots/search"
-        query_str = 'toyota camry'
-        url ="https://api.cquotient.com/v3/activities/bcpk-gamestop-us/viewSearch?clientId=522f0d29-60b5-4497-a06d-5fcacd6c8503"
+        my_fav_cars = []
         data = {
-            'query': "toyota camry"
+            "query": "toyota camry"
         }
-        # gamestop = {
-        #     'searchText': 'xbox'
-        # }
-        #data = json.dumps({"query":{"query":['toyota camry']}})
-        r = requests.post(compart_url,data)
-        #r = requests.post(url,gamestop)
-
+        r = requests.post(compart_url,data,cookies=cookie)
 
         info = r.text
         print(info)
-
 
     if __name__ == '__main__':
      unittest.main()
