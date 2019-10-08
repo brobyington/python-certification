@@ -47,47 +47,27 @@ class WebHelpers:
             print(car + " appears " + str(model_count) + " times!")
         return total
 
+
     def count_damage_types(self):
-        damage_list = []
         count = 1
-        total = 0
-        rear_end = "REAR END"
-        front_end = "FRONT END"
-        minor_dent = "MINOR DENT/SCRATCHES"
-        undercarriage = "UNDERCARRIAGE"
-        misc = 0
-        rear_count = 0
-        front_count = 0
-        minor_count = 0
-        under_count = 0
+        damage_list = {
+            "REAR END": 0,
+            "FRONT END": 0,
+            "MINOR DENT/SCRATCHES": 0,
+            "UNDERCARRIAGE": 0,
+            "MISC": 0
+        }
 
         for type in self.driver.find_elements_by_xpath("//tbody/tr/td[12]"):
             damage_type = type.find_element_by_xpath("//tbody/tr[" + str(count) + "]//span[@data-uname='lotsearchLotdamagedescription']").text
             count += 1
-            damage_list.append(damage_type)
-
-        #print(damage_list)
-        for damage in damage_list:
-            if damage == rear_end:
-                rear_count += 1
-                total += 1
-            elif damage == front_end:
-                front_count += 1
-                total += 1
-            elif damage == minor_dent:
-                minor_count += 1
-                total += 1
-            elif damage == undercarriage:
-                under_count += 1
-                total += 1
+            if damage_type not in damage_list:
+                damage_list["MISC"] += 1
             else:
-                misc += 1
-                total += 1
+                damage_list[damage_type] = damage_list.get(damage_type) + 1
+        print(damage_list)
 
-        print("\n" + rear_end + ": " + str(rear_count) + "\n" + front_end + ": " + str(front_count) + "\n" +
-              minor_dent + ": " + str(minor_count) + "\n" + undercarriage + ": " + str(rear_count) + "\n" +
-                "MISC : " + str(misc))
-
+        total = sum(damage_list.values())
         return total
 
     def makes_and_models(self):

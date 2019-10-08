@@ -15,6 +15,7 @@ class Challenge8(BaseChallenge):
 
     def test_challenge8(self):
         web_helpers = WebHelpers(self.driver)
+        ok = '2'
         self.driver.get("https://www.copart.com")
         cookie = {}
         # for x in self.driver.get_cookies():
@@ -22,14 +23,27 @@ class Challenge8(BaseChallenge):
         cookie = {x["name"]: x["value"] for x in self.driver.get_cookies()}
 
         compart_url = "https://www.copart.com/public/lots/search"
-        my_fav_cars = []
-        data = {
-            "query": "toyota camry"
-        }
-        r = requests.post(compart_url,data,cookies=cookie)
+        my_fav_cars = ["toyota camry", "nissan skyline", "lexus is 350", "audi r8", "lotus elise",
+                       "lamborghini murcielago", "mitsubishi eclipse spyder", "mitsubishi lancer evolution",
+                       "dodge viper", "bugatti veyron"]
+        file = open("Log.txt", "a")
 
-        info = r.text
-        print(info)
+        for car in my_fav_cars:
+            data = {"query": car}
+            r = requests.post(compart_url,data,cookies=cookie)
+            rcode = r.status_code
+            str_rcode = str(rcode)
+            self.assertEqual(ok,str_rcode[0],"Not successful")
+            info = r.text
+            print("Car: " + car + "\n" + info, file=file)
+            parsed_info = json.loads(info)
+            #print(json.dumps(parsed_info,indent=4))
+            car_count = parsed_info["data"]["results"]["totalElements"]
+            print(car + ": " + str(car_count))
+
+        file.close()
+
+
 
     if __name__ == '__main__':
      unittest.main()
