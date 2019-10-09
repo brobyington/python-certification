@@ -116,3 +116,13 @@ class WebHelpers:
 
         product_and_name =  web_helpers.merge_list(product_list,name_list)
         return product_and_name
+
+    def validate_ok_status(self,rcode):
+        ok = '2'
+        str_rcode = str(rcode)
+        if ok == str_rcode[0]:
+            return True
+        else:
+            return False
+
+
