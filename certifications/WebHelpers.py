@@ -6,7 +6,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from certifications.BaseChallenge import BaseChallenge
-
+import pandas as pd
+import math as math
 
 class WebHelpers:
 
@@ -124,5 +125,34 @@ class WebHelpers:
             return True
         else:
             return False
+
+    def get_query_data(self,count,qdata):
+        web_helpers = WebHelpers(self.driver)
+        row =  count
+        df = pd.DataFrame(qdata,index=[row])
+        make = df.loc[row,'make']
+        model = df.loc[row,'model']
+        year = df.loc[row,'year']
+        vtype = df.loc[row,'Vehicle type']
+
+        query = {
+            'make': make,
+            'model': model,
+            'year': year,
+            'vtype': vtype
+        }
+        final_query = web_helpers.verify_if_item_is_nan(query)
+        return final_query
+
+    def verify_if_item_is_nan(self,nlist):
+        for k,v in nlist.items():
+            if type(v) == str:
+                nlist[k] = v
+            elif math.isnan(v):
+                nlist[k] = ''
+            else:
+                nlist[k] = int(v)
+
+        return nlist
 
 
