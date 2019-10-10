@@ -40,12 +40,11 @@ class Challenge10(BaseChallenge):
             info = r.text
             #print(info)
             parsed_info = json.loads(info)
-            car_info = parsed_info["data"]["results"]
-            mat = "mat"
+            car_info = parsed_info["data"]["results"]["content"]
 
             for k,v in qd.items():
                 print(v)
-                if v in info:
+                if v in car_info:
                     bool_list.append(True)
                     print("is true")
                 else:
