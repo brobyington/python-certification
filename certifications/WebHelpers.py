@@ -155,4 +155,55 @@ class WebHelpers:
 
         return nlist
 
+    def search_for_items_in_api_results(self,qdict,res):
+        count = 0
+        real_final = []
+        num_of_dicts = len(list(res))
+        # print(num_of_dicts)
+        while count < num_of_dicts:
+            rdict = list(res)[count]
+            final_bool_list = []
+            for v in qdict.values():
+                bool_list = []
+                if v == '':
+                    bool_list.append('')
+                    continue
+                # print(v)
+                for t in rdict.values():
+                    if str(t).lower() in str(v):
+                        bool_list.append(True)
+                    else:
+                        bool_list.append(False)
+
+                if any(bool_list):
+                    final_bool_list.append(True)
+                    # print(bool_list)
+                else:
+                    final_bool_list.append(False)
+                    # print(bool_list)
+            if not any(final_bool_list):
+                real_final.append(True)
+                # print(final_bool_list)
+            else:
+                real_final.append(False)
+                # print(final_bool_list)
+            count += 1
+        finL = []
+        bool_count = 0
+
+        for v in qdict.values():
+            if v == '':
+                continue
+            if final_bool_list[bool_count] == True:
+                val = "" + str(v) + " was found!"
+                finL.append(val)
+                bool_count += 1
+            else:
+                val = "" + str(v) + " wasn't found!"
+                finL.append(val)
+                bool_count += 1
+
+        #print(finL)
+        return finL
+
 

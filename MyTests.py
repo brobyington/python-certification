@@ -104,3 +104,16 @@ class myTests(unittest.TestCase):
                 bool_count += 1
 
         print(finL)
+
+    def test_list_search(self):
+        bool_list = [['toyota was found!'], ['camry wast found!'], ['1997 was found!'], ['Automobiles was found!'], ['toyota wast found!', 'avalon was found!', '2018 wast found!', 'Automobiles was found!']]
+
+        for b in bool_list:
+            #print(b)
+            for x in b:
+                #print("this is x: " + x)
+                try:
+                    self.assertNotIn("wasn't",x)
+                except:
+                    splitStr =  x.split(" ")
+                    print(splitStr[0] + " wasn't found in results")

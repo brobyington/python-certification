@@ -28,7 +28,7 @@ class Challenge10(BaseChallenge):
             vtype = qd['vtype']
 
             final_query = make + " " + model + " " + str(year) + " " + vtype
-            print(final_query)
+            print("Search query = " + final_query)
             data = {'query': final_query}
 
             r = requests.post(compart_url, data, cookies=cookie)
@@ -41,22 +41,22 @@ class Challenge10(BaseChallenge):
             #print(info)
             parsed_info = json.loads(info)
             car_info = parsed_info["data"]["results"]["content"]
-
-            for k,v in qd.items():
-                print(v)
-                if v in car_info:
-                    bool_list.append(True)
-                    print("is true")
-                else:
-                    bool_list.append(False)
-                #self.assertIn(v,car_info,"" + v + " not found in results")
-                #self.assertIn("matrim cothin",car_info,"matt not found")
-                #print("Query found!")
-
+            #print(car_info)
+            query_bool = web_helpers.search_for_items_in_api_results(qd,car_info)
+            bool_list.append(query_bool)
 
             count += 1
         print(bool_list)
 
+        for b in bool_list:
+            #print(b)
+            for x in b:
+                #print("this is x: " + x)
+                try:
+                    self.assertNotIn("wasn't",x)
+                except:
+                    splitStr =  x.split(" ")
+                    print(splitStr[0] + " wasn't found in results")
 
 
     if __name__ == '__main__':
