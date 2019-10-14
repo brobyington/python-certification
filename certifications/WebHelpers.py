@@ -206,4 +206,51 @@ class WebHelpers:
         #print(finL)
         return finL
 
+    def search_copart(self,search):
+        search_button = "//*[@id='input-search']"
+        self.driver.find_element(By.XPATH, search_button).click()
+        self.driver.find_element(By.XPATH, search_button).send_keys(search + Keys.ENTER)
 
+    def get_doterra_footer_links(self):
+        web_helpers = WebHelpers(self.driver)
+        count = 1
+        page_list = []
+        url_list = []
+
+        for item in self.driver.find_elements_by_xpath("//a[contains(@class,'footer__links__list__link')]"):
+            link_page = item.find_element_by_xpath("(//div[@class='footer__links__groups']"
+                                                   "//a[contains(@class,'footer__links__list__link')])"
+                                                   "["+str(count)+"]").text
+            page_list.append(link_page)
+            page_url = item.find_element_by_xpath("(//div[@class='footer__links__groups']"
+                                                   "//a[contains(@class,'footer__links__list__link')])"
+                                                   "["+str(count)+"]").get_attribute("href")
+            url_list.append(page_url)
+
+            # print(str(count) + " " + car_modal + " - " + str(car_url))
+            count += 1
+
+        page_and_url = web_helpers.merge_list(page_list, url_list)
+        return page_and_url
+
+    def get_doterra_products(self):
+        product_list = {
+            'doTERRA' : 0,
+            'DigestZen' : 0,
+            'Misc' : 0
+        }
+
+        count = 1
+        for item in self.driver.find_elements_by_xpath("//div[@class='grid-image']"):
+            name = item.find_element_by_xpath("(//div[@class='results row']//span[@class='title'])[" + str(count) + "]").text
+            count += 1
+
+            if "doTERRA" in name:
+                product_list["doTERRA"] = product_list.get("doTERRA") + 1
+            elif "DigestZen" in name:
+                product_list["DigestZen"] = product_list.get("DigestZen") + 1
+            else:
+                product_list["Misc"] += 1
+
+
+        print(product_list)

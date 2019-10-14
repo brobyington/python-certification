@@ -9,17 +9,16 @@ from selenium.webdriver.support import expected_conditions as EC
 from certifications.BaseChallenge import BaseChallenge
 from certifications.WebHelpers import WebHelpers
 
-class Challenge5(BaseChallenge):
+class Challenge6(BaseChallenge):
 
-    def test_challenge5(self):
+    def test_challenge6(self):
         web_helpers = WebHelpers(self.driver)
         hundred = 100
+        search = 'nissan'
         self.driver.get("https://www.copart.com")
         self.assertIn("Auto Auction", self.driver.title)
 
-        search_button = "//*[@id='input-search']"
-        self.driver.find_element(By.XPATH, search_button).click()
-        self.driver.find_element(By.XPATH, search_button).send_keys("nissan" + Keys.ENTER)
+        web_helpers.search_copart(search)
 
         first_row = '//table[@id="serverSideDataTable"]//tbody/tr[1]'
         web_helpers.wait_for_object_to_load(first_row)
