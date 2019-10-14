@@ -1,11 +1,8 @@
 import time
 import unittest
-from certifications.BaseChallenge import BaseChallenge
-from selenium.common.exceptions import TimeoutException
+import datetime
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from certifications.BaseChallenge import BaseChallenge
 from certifications.WebHelpers import WebHelpers
 
@@ -27,14 +24,19 @@ class Challenge6(BaseChallenge):
         self.driver.find_element_by_xpath(model_button).click()
         model_search = "//a[text()='Model']/parent::h4/parent::li//input[@type='text']"
         self.driver.find_element(By.XPATH, model_search).click()
-        self.driver.find_element(By.XPATH, model_search).send_keys("skyline" + Keys.ENTER)
+        self.driver.find_element(By.XPATH, model_search).send_keys("brodie" + Keys.ENTER)
 
         try:
             skyline_model = "(//a[text()='Model']/parent::h4/parent::li//div[@class='checkbox']//input[@type='checkbox'])[1]"
             self.driver.find_element_by_xpath(skyline_model)
         except:
             not_found = False
-            self.driver.save_screenshot("no_skyline.png")
+            x = datetime.datetime.now()
+            date = x.strftime("%m-%d-%y %H.%M.%S")
+            this = "this"
+            screenshot_name = "screenshots/"+ date + ".png"
+            print(screenshot_name)
+            self.driver.save_screenshot(screenshot_name)
             self.assertTrue(not_found,"Skyline wasn't found!")
 
 
