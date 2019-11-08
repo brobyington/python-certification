@@ -28,6 +28,5 @@ class Challenge2(BaseChallenge):
         car = "PORSCHE"
         self.assertTrue(car in self.driver.page_source,"The car wasn't found on the page")
 
-
     if __name__ == '__main__':
      unittest.main()

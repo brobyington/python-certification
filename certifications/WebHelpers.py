@@ -254,3 +254,23 @@ class WebHelpers:
 
 
         print(product_list)
+
+    def compare_dict_values(self,d1,d2):
+        dict1 = d1
+        dict2 = d2
+        bools = []
+        for key, value in dict1:
+            v1 = type(value)
+            v2 = dict2[key]
+            print("V1: " + str(v1.__name__) + " and V2: " + str(v2))
+            if v1.__name__ == v2:
+                print("Types match!")
+                bools.append(True)
+            else:
+                print("Should be " + str(v2) + " not a " + str(v1))
+                bools.append(False)
+
+        if all(bools) == True:
+            return True
+        else:
+            return False
